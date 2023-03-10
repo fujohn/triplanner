@@ -1,0 +1,38 @@
+Stack: Python - Django
+
+
+Description:
+A group travel planning application that considers total hours spent per day, number of days, and the logistics in between. This application is shared amongst users to help plan out the day with an agreed time constraint throughout the day(s). As part of the MVP, we are simply counting the number of days, hours per day; as opposed to using specific days and time of day.
+
+Feature List: ("-"s are part of black belt)
+* Login Page
+* List of Trips by user and others
+* Within specific trip, show list of events in order
+* Sum of time of activity in given day (constraint to 24 hours)
+- Commute time between trips for additional timing consideration
+- All non-user trips have RSVPs to be considered in RSVP Pages
+- Upload image for specific event
+
+
+Database: ("-"s are for black belt)
+* Trips
+	+ Destination
+	+ Description
+	+ Mode of Transportation (Walk, Public, Car)
+* Users
+	+ Name
+	+ Email
+	+ Password
+	- Many to Many with Trips (possibility of adding an RSVP column/table)
+* Events
+	+ Sight/Location
+	+ Trip ID (Join with Trip)
+	+ Day of trip
+	+ Event Order
+	+ Duration (minutes)
+	+ Description
+	- Image URL (?)
+
+GitHub Repo:
+
+
