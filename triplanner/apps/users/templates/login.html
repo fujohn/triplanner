@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triplanner</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Triplanner!</h1>
+        <p>Plan on your upcoming trips with your companions!</p>
+    </header>
+    <main>
+        <form action="/user/create" class="register" method="post">
+            {% csrf_token %}
+            <h4>Register</h4>
+            <div>
+                <label type='text' name="name">Name:</label>
+                <input type="text" name="name">
+            </div>
+            <div>
+                <label type='text' name="email">Email:</label>
+                <input type="text" name="email">
+            </div>
+            <div>
+                <label type='text' name="password">Password:</label>
+                <input type="password" name="password">
+            </div>
+            <div>
+                <label type='text' name="confirm_pw">Confirm Password:</label>
+                <input type="password" name="confirm_pw">
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <form action="/trips" class="login" method="post">
+            {% csrf_token %}
+            <h4>Login</h4>
+            <div>
+                <label type='text' name="email">Email:</label>
+                <input type="text" name="email">
+            </div>
+            <div>
+                <label type='text' name="password">Password:</label>
+                <input type="password" name="password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </main>
+</body>
+</html>
