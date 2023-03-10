@@ -23,4 +23,5 @@ def login(request):
     email = request.POST['email']
     password = request.POST['password']
     return redirect('/trips')
+# testing
 # testing comment
