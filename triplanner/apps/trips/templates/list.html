@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triplanner - Name</title>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Hi, [name]!</h1>
+            <!-- Pending Invites added in the middle if black belt -->
+            <p><a href="{% url 'new' %}">Add Trip</a> | <a href="{% url 'users:login' %}">Logout</a></p>
+        </div>
+        <p>You have [X] trips that you are planning to go! You also have [Y] trips to confirm invitation (Black Belt).</p>
+    </header>
+    <main>
+        <h3>Here are your trips:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Days Planned</th>
+                    <th>Mode of Transportation</th>
+                    <th>Organizer</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- for loop on trips -->
+                <tr>
+                    <td>[Destination]</td>
+                    <td>[Max days for events table]</td>
+                    <td>[Transportaion]</td>
+                    <td>[Organizer]</td>
+                    <!-- Add decline if Black Belt -->
+                    <td><a href="/trips/___">View</a> | <a href="/trips/___/delete">Cancel</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
