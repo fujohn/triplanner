@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triplanner - New Sight</title>
+</head>
+<body>
+    <header>
+        <!-- if statement to check whether Trip ID exists -->
+        <h1>Edit Sight Info</h1>
+        <!-- else -->
+        <!-- <h1>New Trip</h1> -->
+        <!-- end -->
+        <p><a href="{% url 'trips:home' %}">Return to Home</a> | <a href="{% url 'users:login' %}">Logout</a></p>
+    </header>
+    <main>
+        <!-- if statement to check whether Trip ID exists -->
+            <form action="/sights/update" method="put">
+        <!-- else -->
+        <!-- <form action="/sights/create" method="post"> -->
+        <!-- end -->
+            {% csrf_token %}
+            <div>
+                <label type='text' name="name">Sight:</label>
+                <input type="text" name="name" value="[specified sight]">
+            </div>
+            <div>
+                <label type='text' name="day">Trip Day:</label>
+                <input type="number" name="day" value="[specified day]">
+            </div>
+            <!-- Black Belt - worthy -->
+            <div>
+                <label type='text' name="order">Event Order:</label>
+                <input type="number" name="order" value="[specified order]">
+            </div>
+            <div>
+                <label type='text' name="duration">Duration (Minutes):</label>
+                <input type="number" name="duration" value="[specified duration]">
+            </div>
+            <div>
+                <label type='text' name="description">Description:</label>
+                <textarea name="description" cols="30" rows="10" >[specified description]</textarea>
+            </div>
+            <!-- Black Belt inserting image -->
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+</body>
+</html>
