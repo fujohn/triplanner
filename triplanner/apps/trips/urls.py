@@ -5,7 +5,7 @@ app_name = 'trips'
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('new', views.amend, name='new'),
+    path('new', views.new, name='new'),
     path('create', views.create), # POST
     path('<int:trip_id>/edit', views.amend, name='edit'),
     path('<int:trip_id>/update', views.edit), # PUT

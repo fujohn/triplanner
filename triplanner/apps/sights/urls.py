@@ -4,7 +4,7 @@ from . import views
 app_name = 'sights'
 
 urlpatterns = [
-    path('new', views.amend, name='new'),
+    path('new', views.new, name='new'),
     path('create', views.create), # POST
     path('<int:sight_id>/edit', views.amend, name='edit'),
     path('<int:sight_id>/update', views.edit), # PUT
