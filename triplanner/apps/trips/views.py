@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Trip
+from ..users.models import User
 
 # Create your views here.
 # dashboard
 def index(request):
     try:
-        del request.session['trip_form']
+        del request.session['edit_trip']
     except:
         pass
     try:
@@ -23,18 +24,19 @@ def new(request):
 
 def create(request):
     # add create element
+    organizer = User.objects.get(id=request.session['user_id'])
     new_trip = Trip.objects.create(
     destination = request.POST['destination'],
     transportation = request.POST['transportation'],
     description = request.POST['description'],
-    organizer = request.POST['organizer']
+    organizer = organizer
     )
     
     return redirect('/trips')
 
 # amending trip
 def amend(request, trip_id):
-    request.session['trip_form'] = 'edit'
+    request.session['edit_trip'] = str(trip_id)
     context = {
         'trip': Trip.objects.get(id=trip_id)
         }

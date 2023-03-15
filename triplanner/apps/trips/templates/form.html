@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triplanner - New Trip</title>
+    {% if 'edit_trip' in request.session %}
+        <title>Triplanner - Edit Trip</title>
+    {% else %}
+        <title>Triplanner - New Trip</title>
+    {% endif %}
 </head>
 <body>
     <header>
         <!-- if statement to check whether Trip ID exists -->
+        {% if 'edit_trip' in request.session %}
         <h1>Edit Trip Info</h1>
-        <!-- else -->
-        <!-- <h1>New Trip</h1> -->
-        <!-- end -->
-        <p><a href="{% url 'home' %}">Return to Home</a> | <a href="{% url 'users:login' %}">Logout</a></p>
+        {% else %}
+        <h1>New Trip</h1>
+        {% endif %}
+        <p><a href="{% url 'trips:home' %}">Return to Home</a> | <a href="{% url 'users:index' %}">Logout</a></p>
     </header>
     <main>
-        <!-- if statement to check whether Trip ID exists -->
-            <form action="/trips/update" method="put">
-        <!-- else -->
-        <!-- <form action="/trips/create" method="post"> -->
-        <!-- end -->
+        {% if 'edit_trip' in request.session %}
+        <form action="/trips/{{ request.session.edit_trip }}/update" method="post">
+        {% else %}
+        <form action="/trips/create" method="post">
+        {% endif %}
             {% csrf_token %}
             <div>
                 <label type='text' name="destination">Destination:</label>

@@ -15,6 +15,15 @@
         <form action="/user/create" class="register" method="post">
             {% csrf_token %}
             <h4>Register</h4>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        {% if 'registration' in message.tags %}
+                            <li>{{ message }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <div>
                 <label type='text' name="name">Name:</label>
                 <input type="text" name="name">
@@ -34,9 +43,18 @@
             <button type="submit">Register</button>
         </form>
         
-        <form action="/trips" class="login" method="post">
+        <form action="user/login" class="login" method="post">
             {% csrf_token %}
             <h4>Login</h4>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        {% if 'login' in message.tags %}
+                            <li>{{ message }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <div>
                 <label type='text' name="email">Email:</label>
                 <input type="text" name="email">

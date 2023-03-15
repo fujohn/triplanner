@@ -9,6 +9,6 @@
 <body>
     <h1>New Account Registered</h1>
     <p>Hi {{request.session.name}}! Your account is ready to be logged in.</p>
-    <a href="{% url 'login' %}">Return to Login</a>
+    <a href="{% url 'users:index' %}">Return to Login</a>
 </body>
 </html>
