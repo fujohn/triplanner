@@ -12,39 +12,56 @@
 </head>
 <body>
     <header>
-        <!-- if statement to check whether Trip ID exists -->
         {% if 'edit_trip' in request.session %}
-        <h1>Edit Trip Info</h1>
+            <h1>Edit Trip Info</h1>
         {% else %}
-        <h1>New Trip</h1>
+            <h1>New Trip</h1>
         {% endif %}
         <p><a href="{% url 'trips:home' %}">Return to Home</a> | <a href="{% url 'users:index' %}">Logout</a></p>
     </header>
     <main>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% if 'edit_trip' in request.session %}
-        <form action="/trips/{{ request.session.edit_trip }}/update" method="post">
+            <form action="/trips/{{ request.session.edit_trip }}/update" method="post">
         {% else %}
-        <form action="/trips/create" method="post">
+            <form action="/trips/create" method="post">
         {% endif %}
             {% csrf_token %}
             <div>
                 <label type='text' name="destination">Destination:</label>
-                <input type="text" name="destination" value="[specified destination]">
+                <input type="text" name="destination" value="{{trip.destination}}">
             </div>
             <div>
                 <label type='text' name="transportation">Mode of Transportation:</label>
                 <select name="transportation">
                     <!-- for loop and if statement for selected value -->
-                    <option value="car">Car</option>
-                    <option value="public" selected >Public Transportation</option>
-                    <option value="walk">Walking</option>
+                    {% if 'edit_trip' in request.session %}
+                        {% for key, choice in choices %}
+                            {% if key == trip.transportation %}
+                                <option value="{{key}}" selected>{{choice}}</option>
+                            {% else %}
+                                <option value="{{key}}">{{choice}}</option>
+                            {% endif %}
+                        {% endfor %}                        
+                    {% else %}
+                        <option selected>Make a selection...</option>
+                        <option value="car">Car</option>
+                        <option value="public">Public Transportation</option>
+                        <option value="walk">Walking</option>
+                    {% endif %}
                 </select>
             </div>
             <div>
                 <label type='text' name="description">Description:</label>
-                <textarea name="description" cols="30" rows="10" >[specified description]</textarea>
+                <textarea name="description" cols="30" rows="10" >{{trip.description}}</textarea>
             </div>
-            <input type="hidden" name="organizer" value="_user_id_">
+            <input type="hidden" name="organizer" value="{{request.session.user_id}}">
             <button type="submit">Submit</button>
         </form>
     </main>
