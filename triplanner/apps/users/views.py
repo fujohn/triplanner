@@ -6,8 +6,7 @@ from .models import User
 # Create your views here.
 def index(request):
     try:
-        del request.session['name']
-        del request.session['user_id']
+        del request.session
     except:
         pass
     return render(request, 'login.html')

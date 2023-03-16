@@ -37,7 +37,7 @@
                             <td>{{trip.transportation}}</td>
                             <td>{{trip.organizer.name}}</td>
                             <!-- Add decline if Black Belt -->
-                            <td><a href="/trips/{{trip.id}}">View</a> | <a href="/trips/{{trip.id}}/delete">Cancel</a></td>
+                            <td><a href="/trips/{{trip.id}}">View</a>{% if trip.organizer.id == request.session.user_id %} | <a href="/trips/{{trip.id}}/delete">Cancel</a> {% endif %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

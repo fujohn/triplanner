@@ -4,26 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triplanner - Your Trip</title>
+    <title>Triplanner - {{trip.destination}}</title>
 </head>
 <body>
     <header>
-        <h1>Your Trip</h1>
+        <h1>Your Trip to {{trip.destination}}</h1>
         <div class="nav">
             <p><a href="{% url 'trips:home' %}">Return to Home</a> | <a href="{% url 'users:index' %}">Logout</a></p>
-            <a href="/trip/____/edit"></a>
+            {% if trip.organizer.id == request.session.user_id %}
+                <a href="/trips/{{trip.id}}/edit">Edit Trip</a>
+            {% else %}
+                <p>This trip is hosted by {{trip.organizer.name}}</p>
+            {% endif %}
         </div>
     </header>
     <main>
-        <p class="trip_description">[Insert Description]</p>
-        <p class="conditions">You are traveling to [Destination] for [x] days. You will be going around via [Mode of Transportation].</p>
+        <p class="trip_description">{{trip.description}}</p>
+        <p class="conditions">You are traveling to {{trip.destination}} for [x] days. You will be going around via {{trip.transportation}}.</p>
         <hr />
-        <p class="italic">The timing below does not include commute time [from the hotel to the first event and the last event to the hotel (depending on belt)].</p>
+        <!-- <p class="italic">The timing below does not include commute time [from the hotel to the first event and the last event to the hotel (depending on belt)].</p> -->
         <!-- for loop on days given that trip -->
             <div class="day">
                 <div class="event_summary">
-                    <h3>Day [X] (Total hours: [Y] hours and [Z] Minutes)</h3>
-                    <a href="/events/new">Add Event</a>
+                    <!-- <h3>Day [X] (Total hours: [Y] hours and [Z] Minutes)</h3> -->
+                    <a href="{% url 'sights:new' %}">Add Sight</a>
                 </div>
                 <!-- for loop on events given day number of trip -->
                 <div class="events">
@@ -43,7 +47,7 @@
                         </div>
                     </div>
                     <div class="action">
-                        <p><a href="/events/____/edit">Edit</a> | <a href="/events/____/delete">Delete</a></p>
+                        <p><a href="/sights/____/edit">Edit</a> | <a href="/sights/____/delete">Delete</a></p>
                     </div>
                 </div>
                 <!-- if going for black belt, have events for loop iterate till everything till last then add in the last component -->

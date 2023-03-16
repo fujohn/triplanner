@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if 'edit_sight' in request.session %}
+        <title>Triplanner - Edit Sight</title>
+    {% else %}
+        <title>Triplanner - New Sight</title>
+    {% endif %}
+</head>
+<body>
+    <header>
+        {% if 'edit_sight' in request.session %}
+            <h1>Edit Sight Info for {{sight.name}}</h1>
+        {% else %}
+            <h1>New Sight</h1>
+        {% endif %}
+        <p><a href="{% url 'trips:home' %}">Return to Home</a> | <a href="/trips/{{request.session.trip_id}}">Return to Trip</a> | <a href="{% url 'users:index' %}">Logout</a></p>
+    </header>
+    <main>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if 'edit_sight' in request.session %}
+            <form action="/sights/{{ request.session.edit_trip }}/update" method="post">
+        {% else %}
+            <form action="/sights/create" method="post">
+        {% endif %}
+            {% csrf_token %}
+            <div>
+                <label type='text' name="name">Sight:</label>
+                <input type="text" name="name" value="{{sight.name}}">
+            </div>
+            <div>
+                <label type='text' name="day">Trip Day:</label>
+                <input type="number" name="day" value="{{sight.day}}" min="1">
+            </div>
+            <!-- Black Belt - worthy -->
+            <div>
+                <label type='text' name="order">Event Order:</label>
+                <input type="number" name="order" value="{{sight.order}}" min="1">
+            </div>
+            <div>
+                <label type='text' name="duration">Duration (Minutes):</label>
+                <input type="number" name="duration" value="{{sight.duration}}" min="10">
+            </div>
+            <div>
+                <label type='text' name="description">Description:</label>
+                <textarea name="description" cols="30" rows="10" >{{sight.description}}</textarea>
+            </div>
+            <input type="hidden" name="creator" value="{{request.session.user_id}}">
+            <input type="hidden" name="trip" value="{{request.session.trip_id}}">
+            <!-- Black Belt inserting image -->
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+</body>
+</html>

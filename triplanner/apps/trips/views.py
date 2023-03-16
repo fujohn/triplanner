@@ -77,9 +77,13 @@ def remove(request, trip_id):
 
 # view trip
 def access(request, trip_id):
+    try:
+        del request.session['edit_sight']
+    except:
+        pass
     # view trip
     context = {
         'trip': Trip.objects.get(id=trip_id)
     }
     request.session['trip_id'] = trip_id
-    return render(request, 'details.html')
+    return render(request, 'details.html', context)

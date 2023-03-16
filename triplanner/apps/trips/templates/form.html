@@ -13,11 +13,11 @@
 <body>
     <header>
         {% if 'edit_trip' in request.session %}
-            <h1>Edit Trip Info</h1>
+            <h1>Edit Trip Info for {{trip.destination}}</h1>
         {% else %}
             <h1>New Trip</h1>
         {% endif %}
-        <p><a href="{% url 'trips:home' %}">Return to Home</a> | <a href="{% url 'users:index' %}">Logout</a></p>
+        <p><a href="{% url 'trips:home' %}">Return to Home</a>{% if 'edit_trip' in request.session %} | <a href="/trips/{{request.session.trip_id}}">Return to Trip</a> | {%endif%}<a href="{% url 'users:index' %}">Logout</a></p>
     </header>
     <main>
         {% if messages %}
@@ -42,7 +42,7 @@
                 <select name="transportation">
                     <!-- for loop and if statement for selected value -->
                     {% if 'edit_trip' in request.session %}
-                        {% for key, choice in choices %}
+                        {% for key, choice in choices.items %}
                             {% if key == trip.transportation %}
                                 <option value="{{key}}" selected>{{choice}}</option>
                             {% else %}
