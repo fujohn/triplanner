@@ -33,26 +33,33 @@ def create(request):
 
 # update trip
 def amend(request, sight_id):
-    request.session['edit_trip'] = str(sight_id)
+    request.session['edit_sight'] = str(sight_id)
     context = {
         'sight':Sight.objects.get(id=sight_id)
     }
     return render(request, 'sight_form.html')
 
 def edit(request, sight_id):
-    sight_to_update = Sight.objects.get(id=sight_id)
-    # add update element
-    sight_to_update.sight = request.POST['sight']
-    sight_to_update.day = request.POST['day']
-    sight_to_update.order = request.POST['order']
-    sight_to_update.duration = request.POST['duration']
-    sight_to_update.description = request.POST['description']
-    sight_to_update.save()
+    errors = Sight.objects.sight_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect(f'/sights/{sight_id}/edit')
+    else:
+        sight_to_update = Sight.objects.get(id=sight_id)
+        # add update element
+        sight_to_update.sight = request.POST['sight']
+        sight_to_update.day = request.POST['day']
+        sight_to_update.order = request.POST['order']
+        sight_to_update.duration = request.POST['duration']
+        sight_to_update.description = request.POST['description']
+        sight_to_update.save()
     
-    return redirect('/trips/__')
+    return redirect('/trips/{sight_to_update.trip.id}')
 
 def remove(request, sight_id):
     sight_to_delete = Sight.objects.get(id=sight_id)
+    return_id = sight_to_delete.trip.id
     # delete trip
     sight_to_delete.delete()
-    return redirect('/trips/___')
+    return redirect(f'/trips/{return_id}')

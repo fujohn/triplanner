@@ -24,34 +24,40 @@
         <hr />
         <!-- <p class="italic">The timing below does not include commute time [from the hotel to the first event and the last event to the hotel (depending on belt)].</p> -->
         <!-- for loop on days given that trip -->
+        <a href="{% url 'sights:new' %}">Add Sight</a>
+        {% for day, sight_list in ordered_sights %}
             <div class="day">
                 <div class="event_summary">
                     <!-- <h3>Day [X] (Total hours: [Y] hours and [Z] Minutes)</h3> -->
-                    <a href="{% url 'sights:new' %}">Add Sight</a>
+                    <h3>Day {{day}}</h3>
                 </div>
+                {% if sight_list %}
                 <!-- for loop on events given day number of trip -->
-                <div class="events">
-                    <!-- div for image if black belt-->
-                    <div class="event_details">
-                        <div class="sight">
-                            <label for="sight">Sight:</label>
-                            <p>[Insert Sight]</p>
-                        </div>
-                        <div class="duration">
-                            <label for="duration">Duration:</label>
-                            <p>[Insert Duration]</p>
-                        </div>
-                        <div class="event_description">
-                            <label for="description">Description:</label>
-                            <p>[Insert Description]</p>
-                        </div>
+                    <div class="events">
+                        {% for sight in sight_list %}
+                            <div class="event_details">
+                                <div class="sight">
+                                    <label for="sight">Sight:</label>
+                                    <p>{{sight.name}}</p>
+                                </div>
+                                <div class="duration">
+                                    <label for="duration">Duration:</label>
+                                    <p>{{sight.duration}}</p>
+                                </div>
+                                <div class="event_description">
+                                    <label for="description">Description:</label>
+                                    <p>{{sight.description}}</p>
+                                </div>
+                                <p><a href="/sights/{{sight.id}}/edit">Edit</a> | <a href="/sights/{{sight.id}}/delete">Delete</a></p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                            <p>You don't have anything scheduled for this day!</p>
+                    {% endif %}
                     </div>
-                    <div class="action">
-                        <p><a href="/sights/____/edit">Edit</a> | <a href="/sights/____/delete">Delete</a></p>
-                    </div>
-                </div>
                 <!-- if going for black belt, have events for loop iterate till everything till last then add in the last component -->
             </div>
+        {% endfor %}
     </main>
 </body>
 </html>

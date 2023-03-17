@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Max
 from django.contrib import messages
 from .models import Trip
 from ..users.models import User
@@ -81,9 +82,18 @@ def access(request, trip_id):
         del request.session['edit_sight']
     except:
         pass
+    trip = Trip.objects.get(id=trip_id)
+    # needed format for a for loop [[day,[events]],...]
+    ordered_sights = []
+
+    for day in range(1,(trip.sights.aggregate(Max('day')))['day__max'] + 1):
+        sights_for_day = trip.sights.filter(day=day).order_by('order')
+        ordered_sights.append([day, sights_for_day])
+
     # view trip
     context = {
-        'trip': Trip.objects.get(id=trip_id)
+        'trip': trip,
+        'ordered_sights':ordered_sights
     }
     request.session['trip_id'] = trip_id
     return render(request, 'details.html', context)
