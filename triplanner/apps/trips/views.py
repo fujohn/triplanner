@@ -4,6 +4,10 @@ from django.contrib import messages
 from .models import Trip
 from ..users.models import User
 
+transport = {'car': 'Car',
+        'public': 'Public Transportation',
+        'walk': 'Walking'}
+
 # Create your views here.
 # dashboard
 def index(request):
@@ -56,9 +60,7 @@ def amend(request, trip_id):
     request.session['edit_trip'] = str(trip_id)
     context = {
         'trip': trip,
-        'choices': {'car': 'Car',
-                    'public': 'Public Transportation',
-                    'walk': 'Walking'}
+        'choices': transport
         }
     return render(request, 'form.html', context)
 
@@ -96,15 +98,24 @@ def access(request, trip_id):
     trip = Trip.objects.get(id=trip_id)
     # needed format for a for loop [[day,[events]],...]
     ordered_sights = []
+    sights = trip.sights.all()
+    max_day = 1
+    if sights:
+        max_day = (sights.aggregate(Max('day')))['day__max']
+        for day in range(1,max_day + 1):
+            sights_for_day = sights.filter(day=day).order_by('order')
+            ordered_sights.append([day, sights_for_day])
+    else:
+        ordered_sights.append([1,[]])
 
-    for day in range(1,(trip.sights.aggregate(Max('day')))['day__max'] + 1):
-        sights_for_day = trip.sights.filter(day=day).order_by('order')
-        ordered_sights.append([day, sights_for_day])
+    
 
     # view trip
     context = {
         'trip': trip,
-        'ordered_sights':ordered_sights
+        'ordered_sights':ordered_sights,
+        'max_day': max_day,
+        'transport': transport[trip.transportation]
     }
     request.session['trip_id'] = trip_id
     return render(request, 'details.html', context)

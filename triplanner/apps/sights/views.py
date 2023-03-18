@@ -38,7 +38,7 @@ def amend(request, sight_id):
     if 'user_id' not in request.session:
         return redirect('/')
     sight = Sight.objects.get(id=sight_id)
-    if request.session['user_id'] != sight.creator.user_id:
+    if request.session['user_id'] != sight.creator.id:
         return redirect(f'/trips/{sight.trip.id}')
     request.session['edit_sight'] = str(sight_id)
     context = {

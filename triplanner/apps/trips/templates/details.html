@@ -20,7 +20,7 @@
     </header>
     <main>
         <p class="trip_description">{{trip.description}}</p>
-        <p class="conditions">You are traveling to {{trip.destination}} for [x] days. You will be going around via {{trip.transportation}}.</p>
+        <p class="conditions">You are traveling to {{trip.destination}} for {{max_day}} days. You will be going around via {{transport}}.</p>
         <hr />
         <!-- <p class="italic">The timing below does not include commute time [from the hotel to the first event and the last event to the hotel (depending on belt)].</p> -->
         <!-- for loop on days given that trip -->
@@ -48,7 +48,11 @@
                                     <label for="description">Description:</label>
                                     <p>{{sight.description}}</p>
                                 </div>
-                                <p><a href="/sights/{{sight.id}}/edit">Edit</a> | <a href="/sights/{{sight.id}}/delete">Delete</a></p>
+                                <div class="creator">
+                                    <label for="creator">Creator:</label>
+                                    <p>{{sight.creator.name}}</p>
+                                </div>
+                                {% if sight.creator.id == request.session.user_id %}<p><a href="/sights/{{sight.id}}/edit">Edit</a> | <a href="/sights/{{sight.id}}/delete">Delete</a></p>{% endif %}
                             </div>
                         {% endfor %}
                     {% else %}

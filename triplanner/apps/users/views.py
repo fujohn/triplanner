@@ -5,10 +5,7 @@ from .models import User
 
 # Create your views here.
 def index(request):
-    try:
-        del request.session
-    except:
-        pass
+    request.session.flush()
     return render(request, 'login.html')
 
 # Registering
