@@ -34,7 +34,6 @@ def create(request):
 
 def register(request):
     print(request.session['name'])
-    print(request.session['user_id'])
     return render(request, 'registered.html')
 
 # Logging in

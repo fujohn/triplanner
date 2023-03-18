@@ -7,6 +7,8 @@ from ..trips.models import Trip
 # Create your views here.
 # create trip
 def new(request):
+    if 'user_id' not in request.session:
+        return ('/')
     return render(request, 'sight_form.html')
 
 def create(request):
@@ -33,11 +35,16 @@ def create(request):
 
 # update trip
 def amend(request, sight_id):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    sight = Sight.objects.get(id=sight_id)
+    if request.session['user_id'] != sight.creator.user_id:
+        return redirect(f'/trips/{sight.trip.id}')
     request.session['edit_sight'] = str(sight_id)
     context = {
-        'sight':Sight.objects.get(id=sight_id)
+        'sight':sight
     }
-    return render(request, 'sight_form.html')
+    return render(request, 'sight_form.html', context)
 
 def edit(request, sight_id):
     errors = Sight.objects.sight_validator(request.POST)

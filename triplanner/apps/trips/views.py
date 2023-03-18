@@ -7,6 +7,8 @@ from ..users.models import User
 # Create your views here.
 # dashboard
 def index(request):
+    if 'user_id' not in request.session:
+        return ('/')
     try:
         del request.session['edit_trip']
     except:
@@ -22,6 +24,8 @@ def index(request):
 
 # adding trip
 def new(request):
+    if 'user_id' not in request.session:
+        return ('/')
     return render(request, 'form.html')
 
 def create(request):
@@ -44,9 +48,14 @@ def create(request):
 
 # amending trip
 def amend(request, trip_id):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    trip = Trip.objects.get(id=trip_id)
+    if request.session['user_id'] != trip.organizer.id:
+        return redirect('/trips')
     request.session['edit_trip'] = str(trip_id)
     context = {
-        'trip': Trip.objects.get(id=trip_id),
+        'trip': trip,
         'choices': {'car': 'Car',
                     'public': 'Public Transportation',
                     'walk': 'Walking'}
@@ -78,6 +87,8 @@ def remove(request, trip_id):
 
 # view trip
 def access(request, trip_id):
+    if 'user_id' not in request.session:
+        return ('/')
     try:
         del request.session['edit_sight']
     except:
