@@ -22,7 +22,8 @@ def index(request):
     except:
         pass
     context = {
-        'all_trips': Trip.objects.all()
+        'all_trips': Trip.objects.all(),
+        'transport': transport
     }
     return render(request, 'list.html', context)
 

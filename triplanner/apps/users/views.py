@@ -10,6 +10,10 @@ def index(request):
 
 # Registering
 def create(request):
+    user = User.objects.filter(email=request.POST['email'])
+    if user:
+            messages.error(request, 'An account already exists with this email', extra_tags='registration')
+            return redirect('/')
     # add create element
     errors = User.objects.register_validator(request.POST)
     if len(errors) > 0:

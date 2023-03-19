@@ -1,0 +1,21 @@
+body {
+    width: 70%;
+    margin: 0px auto;
+}
+
+
+div.register, div.login {
+    width: 35%;
+}
+
+a, p, th, td, label {
+    font-size: 24px;
+}
+
+li {
+    font-size: 20px;
+}
+
+div.day {
+    width: 100%;
+}

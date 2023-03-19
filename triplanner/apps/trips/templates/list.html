@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
     <title>Triplanner - Name</title>
 </head>
 <body>
     <header>
-        <div>
-            <h1>Hi, {{request.session.name}}!</h1>
+        <div class="d-flex justify-content-between">
+            <h1 class="display-1">Hi, {{request.session.name}}!</h1>
             <!-- Pending Invites added in the middle if black belt -->
-            <p><a href="{% url 'trips:new' %}">Add Trip</a> | <a href="{% url 'users:index' %}">Logout</a></p>
+            <p class="align-self-end"><a href="{% url 'trips:new' %}">Add Trip</a> | <a href="{% url 'users:index' %}">Logout</a></p>
         </div>
         <!-- <p>You have [X] trips that you are planning to go! You also have [Y] trips to confirm invitation (Black Belt).</p> -->
     </header>
-    <main>
+    <main class="my-5">
         {% if all_trips %}
-            <h3>Here are your trips:</h3>
-            <table>
-                <thead>
+            <h3 class="my-5">Here are your trips:</h3>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Destination</th>
                         <!-- <th>Days Planned</th> -->
@@ -37,7 +40,7 @@
                             <td>{{trip.transportation}}</td>
                             <td>{{trip.organizer.name}}</td>
                             <!-- Add decline if Black Belt -->
-                            <td><a href="/trips/{{trip.id}}">View</a>{% if trip.organizer.id == request.session.user_id %} | <a href="/trips/{{trip.id}}/delete">Cancel</a> {% endif %}</td>
+                            <td><a href="/trips/{{trip.id}}">View</a>{% if trip.organizer.id == request.session.user_id %} | <a href="/trips/{{trip.id}}/edit">Edit</a> | <a href="/trips/{{trip.id}}/delete">Cancel</a> {% endif %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

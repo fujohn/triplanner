@@ -55,14 +55,14 @@ def edit(request, sight_id):
     else:
         sight_to_update = Sight.objects.get(id=sight_id)
         # add update element
-        sight_to_update.sight = request.POST['sight']
+        sight_to_update.name = request.POST['name']
         sight_to_update.day = request.POST['day']
         sight_to_update.order = request.POST['order']
         sight_to_update.duration = request.POST['duration']
         sight_to_update.description = request.POST['description']
         sight_to_update.save()
     
-    return redirect('/trips/{sight_to_update.trip.id}')
+    return redirect(f'/trips/{sight_to_update.trip.id}')
 
 def remove(request, sight_id):
     sight_to_delete = Sight.objects.get(id=sight_id)
