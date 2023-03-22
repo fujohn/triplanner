@@ -3,6 +3,7 @@ from django.db.models import Max
 from django.contrib import messages
 from .models import Trip
 from ..users.models import User
+from django.http import HttpResponse
 
 transport = {'car': 'Car',
         'public': 'Public Transportation',
@@ -12,7 +13,7 @@ transport = {'car': 'Car',
 # dashboard
 def index(request):
     if 'user_id' not in request.session:
-        return ('/')
+        return redirect('/')
     try:
         del request.session['edit_trip']
     except:
@@ -30,7 +31,7 @@ def index(request):
 # adding trip
 def new(request):
     if 'user_id' not in request.session:
-        return ('/')
+        return redirect('/')
     return render(request, 'form.html')
 
 def create(request):
@@ -91,7 +92,7 @@ def remove(request, trip_id):
 # view trip
 def access(request, trip_id):
     if 'user_id' not in request.session:
-        return ('/')
+        return redirect('/')
     try:
         del request.session['edit_sight']
     except:

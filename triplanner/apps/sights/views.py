@@ -3,12 +3,13 @@ from .models import Sight
 from django.contrib import messages
 from ..users.models import User
 from ..trips.models import Trip
+from django.http import HttpResponse
 
 # Create your views here.
 # create trip
 def new(request):
     if 'user_id' not in request.session:
-        return ('/')
+        return redirect('/')
     return render(request, 'sight_form.html')
 
 def create(request):

@@ -20,7 +20,7 @@
         {% else %}
             <h1 class="display-1">New Trip</h1>
         {% endif %}
-        <p class="align-self-end"><a href="{% url 'trips:home' %}">Return to Home</a>{% if 'edit_trip' in request.session %} | <a href="/trips/{{request.session.trip_id}}">Return to Trip</a>{%endif%} | <a href="{% url 'users:index' %}">Logout</a></p>
+        <p class="align-self-end"><a href="{% url 'trips:home' %}">Return to Home</a>{% if 'edit_trip' in request.session %} | <a href="/trips/{{request.session.edit_trip}}">Return to Trip</a>{%endif%} | <a href="{% url 'users:index' %}">Logout</a></p>
     </header>
     <main>
         {% if messages %}
