@@ -27,6 +27,7 @@ class SightManager(models.Manager):
 class Sight(models.Model):
     name = models.CharField(max_length=100)
     google_search_name = models.CharField(max_length=255) # trigger if null then do no include commute time between connecting events
+    # do we include commute time?
     day = models.IntegerField()
     order = models.IntegerField()
     duration = models.IntegerField()
