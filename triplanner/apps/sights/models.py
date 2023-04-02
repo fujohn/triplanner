@@ -26,12 +26,14 @@ class SightManager(models.Manager):
 
 class Sight(models.Model):
     name = models.CharField(max_length=100)
+    google_search_name = models.CharField(max_length=255)
     day = models.IntegerField()
     order = models.IntegerField()
     duration = models.IntegerField()
     description = models.TextField()
     creator = models.ForeignKey(User, related_name="sights", on_delete=models.CASCADE)
     trip = models.ForeignKey(Trip, related_name="sights", on_delete=models.CASCADE)
+    previous = models.OneToOneField('self', null=True, blank=True, related_name='next', on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = SightManager()
