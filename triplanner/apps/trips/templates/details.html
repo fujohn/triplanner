@@ -29,14 +29,13 @@
         <hr />
         {% for day, sight_list in ordered_sights %}
             <div class="day">
-                <div class="event_summary my-3">
-                    <!-- <h3>Day [X] (Total hours: [Y] hours and [Z] Minutes)</h3> -->
-                    <h3>Day {{day}}</h3>
-                </div>
                 {% if sight_list %}
+                <div class="event_summary my-3">
+                    <h3>Day {{day}} (Total hours: [Y] hours and [Z] Minutes)</h3>
+                </div>
                 <!-- for loop on events given day number of trip -->
                     <div class="events">
-                        {% for sight in sight_list %}
+                        {% for sight, route in sight_list %}
                             <div class="event_details day border border-secondary my-1 p-4">
                                 <div class="sight row">
                                     <label class="col-3" for="sight">Sight:</label>
@@ -54,11 +53,18 @@
                                     <label class="col-3" for="creator">Creator:</label>
                                     <p class="col-7">{{sight.creator.name}}</p>
                                 </div>
+                                <div class="next row">
+                                    <label class="col-3" for="next">Next Event:</label>
+                                    <p class="col-7">{{route.name}}</p>
+                                </div>
                                 {% if sight.creator.id == request.session.user_id %}<p><a href="/sights/{{sight.id}}/edit">Edit</a> | <a href="/sights/{{sight.id}}/delete">Delete</a></p>{% endif %}
                             </div>
                         {% endfor %}
                     {% else %}
-                            <p class="text-muted">You don't have anything scheduled for this day!</p>
+                        <div class="event_summary my-3">
+                            <h3>Day {{day}}</h3>
+                        </div>
+                        <p class="text-muted">You don't have anything scheduled for this day!</p>
                     {% endif %}
                     </div>
                 <!-- if going for black belt, have events for loop iterate till everything till last then add in the last component -->

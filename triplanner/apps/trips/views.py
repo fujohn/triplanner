@@ -5,6 +5,7 @@ from .models import Trip
 from ..users.models import User
 from django.http import HttpResponse
 
+
 transport = {'car': 'Car',
         'public': 'Public Transportation',
         'walk': 'Walking'}
@@ -105,8 +106,19 @@ def access(request, trip_id):
     if sights:
         max_day = (sights.aggregate(Max('day')))['day__max']
         for day in range(1,max_day + 1):
+            routes = []
             sights_for_day = sights.filter(day=day).order_by('order')
-            ordered_sights.append([day, sights_for_day])
+            if sights_for_day:
+                for sight in sights_for_day:
+                    if sight == sights_for_day.first():
+                        pass
+                    else:
+                        routes.append(sight)
+                ending = {'name':'Hotel'}
+                routes.append(ending)
+                ordered_sights.append([day, zip(sights_for_day, routes)])
+            else:
+                ordered_sights.append([day,[]])
     else:
         ordered_sights.append([1,[]])
 

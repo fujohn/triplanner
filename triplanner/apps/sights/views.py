@@ -31,7 +31,8 @@ def create(request):
         creator = creator,
         trip = trip
         )
-        
+
+
         return redirect(f'/trips/{trip.id}')
 
 # update trip
